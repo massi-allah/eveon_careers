@@ -304,31 +304,75 @@
 
       /* Respect reduced motion preferences */
       @media (prefers-reduced-motion: reduce) {
-        * { transition: none !important; animation: none !important; }
+        * {
+          transition: none !important;
+          animation: none !important;
+        }
       }
 
       /* Hide spotlight effect on touch devices */
       @media (pointer: coarse) {
-        body::before { display: none; }
+        body::before {
+          display: none;
+        }
       }
 
       @media (max-width: 700px) {
-        .shell { width: 100vw; margin: 0; border-radius: 0; border-left-width: 0; border-right-width: 0; }
-        header { padding: 14px 16px; gap: 10px; flex-wrap: wrap; }
-        .header-actions { width: 100%; justify-content: flex-end; flex-wrap: wrap; gap: 6px; }
-        .header-actions .home, .header-actions .theme-toggle { padding: 8px 10px; font-size: .85rem; }
-        main { padding: 36px 18px 28px; }
-        .brand { font-size: 1.15rem; }
-        .job-card { padding: 16px; }
-        .jobs-grid { gap: 14px; }
-        .socials a { padding: 6px; }
+        .shell {
+          width: 100vw;
+          margin: 0;
+          border-radius: 0;
+          border-left-width: 0;
+          border-right-width: 0;
+        }
+        header {
+          padding: 14px 16px;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .header-actions {
+          width: 100%;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+        .header-actions .home,
+        .header-actions .theme-toggle {
+          padding: 8px 10px;
+          font-size: 0.85rem;
+        }
+        main {
+          padding: 36px 18px 28px;
+        }
+        .brand {
+          font-size: 1.15rem;
+        }
+        .job-card {
+          padding: 16px;
+        }
+        .jobs-grid {
+          gap: 14px;
+        }
+        .socials a {
+          padding: 6px;
+        }
       }
 
       @media (max-width: 420px) {
-        header { padding: 12px 14px; }
-        .header-actions { gap: 6px; }
-        .header-actions a, .header-actions button { flex: 1 1 auto; justify-content: center; }
-        main { padding: 28px 14px 22px; }
+        header {
+          padding: 12px 14px;
+        }
+        .header-actions {
+          gap: 6px;
+        }
+        .header-actions a,
+        .header-actions button {
+          flex: 1 1 auto;
+          justify-content: center;
+        }
+        main {
+          padding: 28px 14px 22px;
+        }
       }
     </style>
   </head>
@@ -337,7 +381,7 @@
       <header>
         <a class="brand" href="/">Eveon Solutions</a>
         <div class="header-actions">
-          <a class="home" href="/">Home</a>
+          <a class="home" href="https://eveonsolutions.com">Home</a>
           <button
             class="theme-toggle"
             id="theme-toggle"
@@ -585,7 +629,10 @@
         currentX += (targetX - currentX) * 0.12;
         currentY += (targetY - currentY) * 0.12;
         setVars();
-        if (Math.abs(targetX - currentX) > 0.5 || Math.abs(targetY - currentY) > 0.5) {
+        if (
+          Math.abs(targetX - currentX) > 0.5 ||
+          Math.abs(targetY - currentY) > 0.5
+        ) {
           raf = requestAnimationFrame(tick);
         } else {
           raf = null;
