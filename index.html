@@ -301,16 +301,33 @@
         outline-offset: 2px;
       }
 
+      /* Respect reduced motion preferences */
+      @media (prefers-reduced-motion: reduce) {
+        * { transition: none !important; animation: none !important; }
+      }
+
+      /* Hide spotlight effect on touch devices */
+      @media (pointer: coarse) {
+        body::before { display: none; }
+      }
+
       @media (max-width: 700px) {
-        header {
-          padding: 16px 18px;
-        }
-        main {
-          padding: 44px 22px 32px;
-        }
-        .brand {
-          font-size: 1.15rem;
-        }
+        .shell { width: 100vw; margin: 0; border-radius: 0; border-left-width: 0; border-right-width: 0; }
+        header { padding: 14px 16px; gap: 10px; flex-wrap: wrap; }
+        .header-actions { width: 100%; justify-content: flex-end; flex-wrap: wrap; gap: 6px; }
+        .header-actions .home, .header-actions .theme-toggle { padding: 8px 10px; font-size: .85rem; }
+        main { padding: 36px 18px 28px; }
+        .brand { font-size: 1.15rem; }
+        .job-card { padding: 16px; }
+        .jobs-grid { gap: 14px; }
+        .socials a { padding: 6px; }
+      }
+
+      @media (max-width: 420px) {
+        header { padding: 12px 14px; }
+        .header-actions { gap: 6px; }
+        .header-actions a, .header-actions button { flex: 1 1 auto; justify-content: center; }
+        main { padding: 28px 14px 22px; }
       }
     </style>
   </head>
@@ -463,7 +480,7 @@
               </svg>
             </a>
           </div>
-          <div class="job-card">
+          <div class="job-card" role="listitem">
             <div class="job-title">React Native Developer</div>
             <a
               class="apply"
