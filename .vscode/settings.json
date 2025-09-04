@@ -1,3 +1,6 @@
 {
-    "livePreview.defaultPreviewPath": "/index.html"
+  "livePreview.defaultPreviewPath": "/index.html",
+  "liveServer.settings.host": "0.0.0.0",
+  "liveServer.settings.useLocalIp": true,
+  "liveServer.settings.port": 5500
 }

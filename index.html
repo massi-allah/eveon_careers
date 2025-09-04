@@ -70,16 +70,16 @@
         margin: 0;
       }
       body {
-        padding: 5vh;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 0;
         font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial,
           sans-serif;
         line-height: 1.6;
         color: var(--fg);
-        display: grid;
-        place-items: center;
         overflow-x: hidden;
         background: radial-gradient(
-          1200px 800px at 10% 10%,
+          900px 600px at 12% 10%,
           var(--bg-2) 0%,
           var(--bg) 55%,
           var(--bg) 100%
@@ -91,17 +91,17 @@
         inset: 0;
         pointer-events: none;
         background: radial-gradient(
-          600px 600px at var(--mx, 50%) var(--my, 50%),
-          rgba(21, 96, 137, 0.25),
+          360px 360px at var(--mx, 50%) var(--my, 50%),
+          rgba(21, 96, 137, 0.18),
           transparent 60%
         );
-        filter: blur(10px) saturate(120%);
-        opacity: 0.9;
+        filter: blur(8px) saturate(115%);
+        opacity: 0.8;
         z-index: -1;
       }
       .shell {
         width: min(1100px, 95vw);
-        margin: 0 auto;
+        margin: 16px auto;
         background: var(--card);
         border: 1px solid var(--card-border);
         border-radius: 18px;
@@ -114,6 +114,7 @@
         overflow: clip;
       }
       header {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -568,18 +569,38 @@
     <script>
       // Year
       document.getElementById("year").textContent = new Date().getFullYear();
-      // Spotlight follows cursor
+      // Spotlight follows cursor (smaller + eased for stability)
       const root = document.documentElement;
-      const update = (x, y) => {
-        root.style.setProperty("--mx", x + "px");
-        root.style.setProperty("--my", y + "px");
+      let targetX = window.innerWidth * 0.5;
+      let targetY = window.innerHeight * 0.35;
+      let currentX = targetX;
+      let currentY = targetY;
+      let raf = null;
+      const setVars = () => {
+        root.style.setProperty("--mx", currentX + "px");
+        root.style.setProperty("--my", currentY + "px");
+      };
+      const tick = () => {
+        // Ease toward target to avoid jitter
+        currentX += (targetX - currentX) * 0.12;
+        currentY += (targetY - currentY) * 0.12;
+        setVars();
+        if (Math.abs(targetX - currentX) > 0.5 || Math.abs(targetY - currentY) > 0.5) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          raf = null;
+        }
       };
       window.addEventListener(
         "pointermove",
-        (e) => update(e.clientX, e.clientY),
+        (e) => {
+          targetX = e.clientX;
+          targetY = e.clientY;
+          if (!raf) raf = requestAnimationFrame(tick);
+        },
         { passive: true }
       );
-      update(window.innerWidth * 0.5, window.innerHeight * 0.35);
+      setVars();
       // Theme toggle (reuse index logic)
       const btn = document.getElementById("theme-toggle");
       const media = window.matchMedia("(prefers-color-scheme: light)");
